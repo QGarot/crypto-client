@@ -19,4 +19,6 @@ public class Configuration {
     public static final String VIEW_REGISTER = "register";
     public static final String VIEW_DASHBOARD = "dashboard";
     public static final String VIEW_LOADING = "loading";
+    public static final String VIEW_REGISTRATIONFAILED = "registrationfailed";
+
 }

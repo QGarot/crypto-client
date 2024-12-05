@@ -4,10 +4,14 @@ import com.cryptoclient.application.Application;
 import com.cryptoclient.application.views.dashboard.Dashboard;
 import com.cryptoclient.application.views.index.login.Login;
 import com.cryptoclient.application.views.index.register.Register;
+import com.cryptoclient.application.views.loading.Loading;
+import com.cryptoclient.application.views.registrationfailed.Registrationfailed;
 import com.cryptoclient.config.Configuration;
+import com.cryptoclient.listener.Registrationfailed.RegistrationfailedListener;
 import com.cryptoclient.listener.dashboard.DashboardListener;
 import com.cryptoclient.listener.login.LoginListener;
 import com.cryptoclient.listener.register.RegisterListener;
+import com.cryptoclient.listener.loading.LoadingListener;
 import com.cryptoclient.networking.Connection;
 
 public class EventsListener {
@@ -19,6 +23,8 @@ public class EventsListener {
     private ViewListener<Login> loginListener;
     private ViewListener<Register> registerListener;
     private ViewListener<Dashboard> dashboardViewListener;
+    private LoadingListener loadingListener;
+    private RegistrationfailedListener registrationfailedListener;
 
     public EventsListener(Application application, Connection connection) {
         this.application = application;
@@ -37,6 +43,12 @@ public class EventsListener {
         // listen dashboard
         this.setDashboardViewListener(new DashboardListener(this.getApplication(), this.getConnection(), (Dashboard) this.getApplication().getViewManager().getViews().get(Configuration.VIEW_DASHBOARD)));
         this.getDashboardViewListener().listen();
+
+        this.setLoadingListener(new LoadingListener(this.getApplication(), this.getConnection(), (Loading) this.getApplication().getViewManager().getViews().get(Configuration.VIEW_LOADING)));
+        this.getLoadingListener().listen();
+
+        this.setRegistrationfailedListener(new RegistrationfailedListener(this.getApplication(), this.getConnection(), (Registrationfailed) this.getApplication().getViewManager().getViews().get(Configuration.VIEW_REGISTRATIONFAILED)));
+        this.getLoadingListener().listen();
     }
 
     private ViewListener<Dashboard> getDashboardViewListener() {
@@ -53,6 +65,24 @@ public class EventsListener {
 
     private void setRegisterListener(ViewListener<Register> registerListener) {
         this.registerListener = registerListener;
+    }
+
+
+
+    private LoadingListener getLoadingListener() {
+        return this.loadingListener;
+    }
+
+    private void setLoadingListener(LoadingListener loadingListener) {
+        this.loadingListener = loadingListener;
+    }
+
+    private RegistrationfailedListener getRegistrationfailedListener() {
+        return this.registrationfailedListener;
+    }
+
+    private void setRegistrationfailedListener(RegistrationfailedListener registrationfailedListener) {
+        this.registrationfailedListener = registrationfailedListener;
     }
 
     private ViewListener<Login> getLoginListener() {

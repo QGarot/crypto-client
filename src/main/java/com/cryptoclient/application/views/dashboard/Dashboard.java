@@ -44,6 +44,7 @@ public class Dashboard extends View {
 
     @Override
     public void loadComponents() {
+
         this.setLayout(new BorderLayout());
 
         // Dégradé d'arrière-plan pour le tableau de bord

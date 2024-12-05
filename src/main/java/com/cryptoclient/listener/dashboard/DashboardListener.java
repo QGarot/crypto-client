@@ -7,9 +7,12 @@ import com.cryptoclient.listener.ViewListener;
 import com.cryptoclient.networking.Connection;
 import com.cryptoclient.networking.packets.headers.OutgoingHeaders;
 import org.json.JSONObject;
-
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+
 
 public class DashboardListener extends ViewListener<Dashboard> {
 
@@ -20,7 +23,32 @@ public class DashboardListener extends ViewListener<Dashboard> {
     @Override
     public void listen() {
         listenCryptocurrencySelection();
-        listenLogout() ;
+        listenSearch();
+        listenLogout();
+    }
+
+    private void listenSearch() {
+        this.getView().getMenu().getCryptoSubmenu().getSearchField().getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                filter();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                filter();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                filter();
+            }
+
+            private void filter() {
+                String query = getView().getMenu().getCryptoSubmenu().getSearchField().getText();
+                getView().getMenu().getCryptoSubmenu().filterCryptocurrencies(query);
+            }
+        });
     }
 
     private void listenCryptocurrencySelection() {
@@ -47,4 +75,3 @@ public class DashboardListener extends ViewListener<Dashboard> {
         });
     }
 }
-

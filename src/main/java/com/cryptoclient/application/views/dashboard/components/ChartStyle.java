@@ -3,7 +3,6 @@ package com.cryptoclient.application.views.dashboard.components;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
-import org.jfree.chart.ui.RectangleInsets;
 
 import java.awt.*;
 
@@ -11,32 +10,16 @@ public class ChartStyle {
 
     public static void applyStyle(JFreeChart chart) {
         XYPlot plot = chart.getXYPlot();
+        plot.setBackgroundPaint(new Color(240, 240, 240));
+        plot.setDomainGridlinePaint(new Color(85, 107, 255)); // Grille bleu
+        plot.setRangeGridlinePaint(new Color(85, 107, 255));
 
-        // Couleur de fond
-        plot.setBackgroundPaint(Color.DARK_GRAY);
-
-        // Couleur des lignes de quadrillage
-        plot.setDomainGridlinePaint(Color.WHITE);
-        plot.setRangeGridlinePaint(Color.WHITE);
-
-        // Marges
-        plot.setAxisOffset(new RectangleInsets(5.0, 5.0, 5.0, 5.0));
-
-        // Courbe
         XYLineAndShapeRenderer renderer = new XYLineAndShapeRenderer();
-        renderer.setSeriesPaint(0, Color.CYAN);
+        renderer.setSeriesPaint(0, new Color(85, 107, 255)); // Ligne bleu
         renderer.setSeriesStroke(0, new BasicStroke(2.0f));
-
         plot.setRenderer(renderer);
 
-        // Personnalisation des axes
-        plot.getDomainAxis().setLabelPaint(Color.WHITE);
-        plot.getDomainAxis().setTickLabelPaint(Color.WHITE);
-        plot.getRangeAxis().setLabelPaint(Color.WHITE);
-        plot.getRangeAxis().setTickLabelPaint(Color.WHITE);
-
-        // Titre du graphique
-        chart.getTitle().setPaint(Color.WHITE);
-        chart.getTitle().setFont(new Font("Arial", Font.BOLD, 16));
+        chart.getTitle().setFont(new Font("Arial", Font.BOLD, 18));
+        chart.getTitle().setPaint(new Color(85, 107, 255)); // Titre bleu
     }
 }

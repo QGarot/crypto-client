@@ -34,12 +34,21 @@ public class RegisterListener extends ViewListener<Register> {
 
     private void listenRegisterSubmit() {
         this.getView().getRegisterButton().addActionListener(e -> {
-            JSONObject packet = new JSONObject();
-            packet.put("header", OutgoingHeaders.REGISTER_SUBMIT_REQUEST);
-            packet.put("username", this.getView().getUsernameField().getText());
-            packet.put("password", this.getView().getPasswordField().getText()); // TODO: getText() is deprecated
-            packet.put("confirmPassword", this.getView().getConfirmPasswordField().getText());
-            this.getConnection().sendPacket(packet);
+            String password = this.getView().getPasswordField().getText(); // TODO: getText() is deprecated
+            String confirmPassword = this.getView().getConfirmPasswordField().getText();
+
+            if (!password.equals(confirmPassword)) {
+                this.getApp().getViewManager().displayView(Configuration.VIEW_REGISTRATIONFAILED);
+            } else {
+                // Si les mots de passe correspondent, envoyer le paquet
+                JSONObject packet = new JSONObject();
+                packet.put("header", OutgoingHeaders.REGISTER_SUBMIT_REQUEST);
+                packet.put("username", this.getView().getUsernameField().getText());
+                packet.put("password", password);
+                this.getConnection().sendPacket(packet);
+                this.getApp().getViewManager().displayView(Configuration.VIEW_LOGIN);
+
+            }
         });
     }
 }

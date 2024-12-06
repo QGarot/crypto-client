@@ -5,32 +5,23 @@ import java.awt.*;
 
 public class ProfileSubmenu extends JPanel {
 
-    private JButton profileButton;
-    private JButton editProfileButton;
     private JButton logoutButton;
-    private JTextField textField; // Champ de texte ajouté
 
     public ProfileSubmenu() {
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.setBackground(new Color(40, 43, 45));
 
         // Boutons stylisés
-        this.setProfileButton(createStyledButton("Mon profil"));
-        this.setEditProfileButton(createStyledButton("Édition"));
         this.setLogoutButton(createStyledButton("Déconnexion"));
 
         // Champ de texte avec un encadrant
-        this.textField = createTextFieldWithBorder();
+
 
         // Ajouter les éléments au panneau
-        this.add(Box.createRigidArea(new Dimension(0, 10))); // Espacement
-        this.add(this.getProfileButton());
-        this.add(Box.createRigidArea(new Dimension(0, 10))); // Espacement
-        this.add(this.getEditProfileButton());
+
         this.add(Box.createRigidArea(new Dimension(0, 10))); // Espacement
         this.add(this.getLogoutButton());
-        this.add(Box.createRigidArea(new Dimension(0, 10))); // Espacement
-        this.add(this.textField); // Ajout du champ de texte avec bordure
+
     }
 
     private JButton createStyledButton(String text) {
@@ -53,22 +44,6 @@ public class ProfileSubmenu extends JPanel {
         field.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1)); // Bordure grise de 1 pixel
         field.setAlignmentX(Component.CENTER_ALIGNMENT);
         return field;
-    }
-
-    public JButton getProfileButton() {
-        return profileButton;
-    }
-
-    public void setProfileButton(JButton profileButton) {
-        this.profileButton = profileButton;
-    }
-
-    public JButton getEditProfileButton() {
-        return editProfileButton;
-    }
-
-    public void setEditProfileButton(JButton editProfileButton) {
-        this.editProfileButton = editProfileButton;
     }
 
     public JButton getLogoutButton() {

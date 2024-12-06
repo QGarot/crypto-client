@@ -60,6 +60,23 @@ public class DashboardListener extends ViewListener<Dashboard> {
                 JSONObject packet = new JSONObject();
                 packet.put("header", OutgoingHeaders.DASHBOARD_SELECT_CRYPTO_REQUEST);
                 packet.put("cryptoName", selectedCryptocurrency);
+                packet.put("period", "ONE_MONTH");
+
+                this.getConnection().sendPacket(packet);
+            }
+        });
+    }
+
+    private void listenCryptocurrencySelectionTest() {
+        this.getView().getMenu().getCryptoSubmenu().getCryptocurrenciesItems().addListSelectionListener(e -> {
+            if (!e.getValueIsAdjusting()) {
+                String selectedCryptocurrency = getView().getMenu().getCryptoSubmenu().getCryptocurrenciesItems().getSelectedValue();
+
+                // Prepare the request to the server
+                JSONObject packet = new JSONObject();
+                packet.put("header", OutgoingHeaders.DASHBOARD_SELECT_CRYPTO_REQUEST);
+                packet.put("cryptoName", selectedCryptocurrency);
+                packet.put("period", getView().getMenu().getPeriodSelected());
 
                 this.getConnection().sendPacket(packet);
             }

@@ -7,12 +7,11 @@ import com.cryptoclient.listener.ViewListener;
 import com.cryptoclient.networking.Connection;
 import com.cryptoclient.networking.packets.headers.OutgoingHeaders;
 import org.json.JSONObject;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class DashboardListener extends ViewListener<Dashboard> {
 
@@ -23,8 +22,8 @@ public class DashboardListener extends ViewListener<Dashboard> {
     @Override
     public void listen() {
         listenCryptocurrencySelection();
-        listenSearch();
         listenLogout();
+        listenSearch(); // Make sure to call listenSearch here
     }
 
     private void listenSearch() {
@@ -45,8 +44,15 @@ public class DashboardListener extends ViewListener<Dashboard> {
             }
 
             private void filter() {
-                String query = getView().getMenu().getCryptoSubmenu().getSearchField().getText();
-                getView().getMenu().getCryptoSubmenu().filterCryptocurrencies(query);
+                String query = getView().getMenu().getCryptoSubmenu().getSearchField().getText().trim();
+
+                if (query.isEmpty() || query.equalsIgnoreCase("Rechercher")) {
+                    // Si la barre de recherche est vide, restaurer la liste complète sans envoyer de requête
+                    getView().getMenu().getCryptoSubmenu().restoreFullList();
+                } else {
+                    // Sinon, effectuer un filtrage local (sans action réseau)
+                    getView().getMenu().getCryptoSubmenu().filterCryptocurrencies(query);
+                }
             }
         });
     }
@@ -56,12 +62,15 @@ public class DashboardListener extends ViewListener<Dashboard> {
             if (!e.getValueIsAdjusting()) {
                 String selectedCryptocurrency = getView().getMenu().getCryptoSubmenu().getCryptocurrenciesItems().getSelectedValue();
 
-                // Prepare the request to the server
-                JSONObject packet = new JSONObject();
-                packet.put("header", OutgoingHeaders.DASHBOARD_SELECT_CRYPTO_REQUEST);
-                packet.put("cryptoName", selectedCryptocurrency);
+                if (selectedCryptocurrency != null && !selectedCryptocurrency.isEmpty()) {
+                    // Préparer la requête uniquement si une crypto a été sélectionnée
+                    JSONObject packet = new JSONObject();
+                    packet.put("header", OutgoingHeaders.DASHBOARD_SELECT_CRYPTO_REQUEST);
+                    packet.put("cryptoName", selectedCryptocurrency);
 
-                this.getConnection().sendPacket(packet);
+                    // Envoyer la requête
+                    this.getConnection().sendPacket(packet);
+                }
             }
         });
     }

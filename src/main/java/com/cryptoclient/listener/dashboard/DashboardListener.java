@@ -67,6 +67,7 @@ public class DashboardListener extends ViewListener<Dashboard> {
                     JSONObject packet = new JSONObject();
                     packet.put("header", OutgoingHeaders.DASHBOARD_SELECT_CRYPTO_REQUEST);
                     packet.put("cryptoName", selectedCryptocurrency);
+                    packet.put("period", getView().getMenu().getPeriodSelected());
 
                     // Envoyer la requête
                     this.getConnection().sendPacket(packet);

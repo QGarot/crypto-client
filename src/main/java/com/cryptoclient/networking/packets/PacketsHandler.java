@@ -2,6 +2,7 @@ package com.cryptoclient.networking.packets;
 
 import com.cryptoclient.application.Application;
 import com.cryptoclient.networking.packets.authentification.LoginResponse;
+import com.cryptoclient.networking.packets.authentification.RegisterResponse;
 import com.cryptoclient.networking.packets.dashboard.SelectCryptoResponse;
 import com.cryptoclient.networking.packets.headers.IncomingHeaders;
 import org.json.JSONObject;
@@ -26,6 +27,7 @@ public class PacketsHandler {
     private void registerEvents() {
         this.getEvents().put(IncomingHeaders.LOGIN_RESPONSE, new LoginResponse());
         this.getEvents().put(IncomingHeaders.DASHBOARD_SELECT_CRYPTO_RESPONSE, new SelectCryptoResponse());
+        this.getEvents().put(IncomingHeaders.REGISTER_RESPONSE, new RegisterResponse());
     }
 
     public HashMap<Integer, Event> getEvents() {

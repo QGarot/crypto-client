@@ -15,7 +15,12 @@ public class Register extends View {
     private int textSize;
     private int inputColumns;
 
+    private String usernamePlaceholder;
+    private String passwordPlaceholder;
+    private String confirmPasswordPlaceholder;
+
     private JLabel title;
+    private JLabel message;
     private UsernameField usernameField;
     private PasswordField passwordField;
     private PasswordField confirmPasswordField;
@@ -26,8 +31,15 @@ public class Register extends View {
         this.textSize = 23;
         this.inputColumns = 11;
 
+        // Initialize placeholders
+        this.usernamePlaceholder = "Pseudo";
+        this.passwordPlaceholder = "Mot de passe";
+        this.confirmPasswordPlaceholder = "Confirmation";
+
+
         // Initialize components
         this.title = new JLabel("Inscription");
+        this.message = new JLabel();
         this.usernameField = new UsernameField("Pseudo", this.inputColumns, this.textSize);
         this.passwordField = new PasswordField("Mot de passe", this.inputColumns, this.textSize);
         this.confirmPasswordField = new PasswordField("Vérifiez le mot de passe", this.inputColumns, this.textSize);
@@ -44,8 +56,33 @@ public class Register extends View {
         configureKeyboardNavigation();
     }
 
+    public String getUsernamePlaceholder() {
+        return this.usernamePlaceholder;
+    }
+
+    public String getPasswordPlaceholder() {
+        return this.passwordPlaceholder;
+    }
+
+    public String getConfirmPasswordPlaceholder() {
+        return this.confirmPasswordPlaceholder;
+    }
+
     private void configureKeyboardNavigation() {
         KeyboardHandler.configureNavigation(usernameField, passwordField, confirmPasswordField, registerButton);
+    }
+
+    public JLabel getMessage() {
+        return this.message;
+    }
+
+    public void setMessage(String message, boolean error) {
+        if (error) {
+            this.getMessage().setForeground(new Color(239, 40, 40));
+        } else {
+            this.getMessage().setForeground(new Color(34, 200, 36));
+        }
+        this.getMessage().setText(message);
     }
 
     public JLabel getLoginLabel() {
@@ -95,29 +132,37 @@ public class Register extends View {
         gbc.insets = new Insets(0, 0, 20, 0);
         this.add(this.title, gbc);
 
-        // Username field
+        // Error configuration
+        this.message.setFont(new Font("Arial", Font.PLAIN, 26));
+        //this.error.setForeground(new Color(239, 40, 40));
+        gbc.gridx = 1;
         gbc.gridy = 1;
+        gbc.insets = new Insets(0, 0, 20, 0);
+        this.add(this.message, gbc);
+
+        // Username field
+        gbc.gridy = 2;
         gbc.insets = new Insets(0, 0, 20, 0);
         this.add(this.usernameField, gbc);
 
         // Password field
-        gbc.gridy = 2;
+        gbc.gridy = 3;
         this.add(this.passwordField, gbc);
 
         // Confirm password field
-        gbc.gridy = 3;
+        gbc.gridy = 4;
         this.add(this.confirmPasswordField, gbc);
 
         // Login label
         this.loginLabel.setFont(new Font("Arial", Font.PLAIN, 15));
         this.loginLabel.setForeground(new Color(0, 172, 237));
         this.loginLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        gbc.gridy = 4;
+        gbc.gridy = 5;
         gbc.insets = new Insets(0, 0, 10, 0);
         this.add(this.loginLabel, gbc);
 
         // Register button
-        gbc.gridy = 5;
+        gbc.gridy = 6;
         this.add(this.registerButton, gbc);
     }
 }

@@ -10,6 +10,7 @@ import org.json.JSONObject;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.Objects;
 
 public class RegisterListener extends ViewListener<Register> {
 
@@ -34,21 +35,27 @@ public class RegisterListener extends ViewListener<Register> {
 
     private void listenRegisterSubmit() {
         this.getView().getRegisterButton().addActionListener(e -> {
+            String username = this.getView().getUsernameField().getText();
             String password = this.getView().getPasswordField().getText(); // TODO: getText() is deprecated
             String confirmPassword = this.getView().getConfirmPasswordField().getText();
 
-            if (!password.equals(confirmPassword)) {
-                this.getApp().getViewManager().displayView(Configuration.VIEW_REGISTRATIONFAILED);
-            } else {
-                // Si les mots de passe correspondent, envoyer le paquet
-                JSONObject packet = new JSONObject();
-                packet.put("header", OutgoingHeaders.REGISTER_SUBMIT_REQUEST);
-                packet.put("username", this.getView().getUsernameField().getText());
-                packet.put("password", password);
-                this.getConnection().sendPacket(packet);
-                this.getApp().getViewManager().displayView(Configuration.VIEW_LOGIN);
-
+            // Check if inputs are empty
+            if (Objects.equals(username, this.getView().getUsernamePlaceholder())) {
+                username = "";
             }
+            if (Objects.equals(password, this.getView().getPasswordPlaceholder())) {
+                password = "";
+            }
+            if (Objects.equals(confirmPassword, this.getView().getConfirmPasswordPlaceholder())) {
+                confirmPassword = "";
+            }
+
+            JSONObject packet = new JSONObject();
+            packet.put("header", OutgoingHeaders.REGISTER_SUBMIT_REQUEST);
+            packet.put("username", username);
+            packet.put("password", password);
+            packet.put("confirmPassword", confirmPassword);
+            this.getConnection().sendPacket(packet);
         });
     }
 }

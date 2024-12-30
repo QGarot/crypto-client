@@ -40,9 +40,9 @@ public class Register extends View {
         // Initialize components
         this.title = new JLabel("Inscription");
         this.message = new JLabel();
-        this.usernameField = new UsernameField("Pseudo", this.inputColumns, this.textSize);
-        this.passwordField = new PasswordField("Mot de passe", this.inputColumns, this.textSize);
-        this.confirmPasswordField = new PasswordField("Vérifiez le mot de passe", this.inputColumns, this.textSize);
+        this.usernameField = new UsernameField(this.getUsernamePlaceholder(), this.inputColumns, this.textSize);
+        this.passwordField = new PasswordField(this.getPasswordPlaceholder(), this.inputColumns, this.textSize);
+        this.confirmPasswordField = new PasswordField(this.getConfirmPasswordPlaceholder(), this.inputColumns, this.textSize);
         this.loginLabel = new JLabel("Retourner sur la page de connexion");
         this.registerButton = new SubmitButton("S'inscrire", this.textSize);
 
